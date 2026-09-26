@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lucky Draw Studio — Event Draw System</title>
+<meta name="description" content="Premium lucky draw system for events, galas and live stages." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFD668'/%3E%3Cstop offset='1' stop-color='%23FF9F1C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='1' y='1' width='30' height='30' rx='9' fill='url(%23g)'/%3E%3Cpath d='M9 9l3.5 1.2L10 14a5 5 0 003 3l3.5-2.2L16 19l-1.6 1a5 5 0 01-9-2l.6-3a5 5 0 013-6z' fill='%230A0E22'/%3E%3Ccircle cx='22' cy='11' r='2' fill='%230A0E22'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-theme="navy">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h5v-6h4v6h5V9.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M9 11a4 4 0 100-8 4 4 0 000 8zm-6 10c0-3.3 2.7-6 6-6s6 2.7 6 6M16 4a3.5 3.5 0 010 7m2 8c0-2.2-.8-4-3.2-5.2M19 3.5a3.5 3.5 0 011 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><path d="M12 8v13M12 8H7a2.5 2.5 0 110-5c3 0 4 3 5 5zm0 0h5a2.5 2.5 0 100-5c-3 0-4 3-5 5zM5 12h14v9H5zM5 12V8h14v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 8.8 8.8 0 00-6.3 2.6L3 8m0 0V3.5M3 8h4.5M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5l13 7.5-13 7.5z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-fullscreen" viewBox="0 0 24 24"><path d="M9 4H4.5C4.2 4 4 4.2 4 4.5V9m0 6v4.5c0 .3.2.5.5.5H9m6 0h4.5c.3 0 .5-.2.5-.5V15m0-6V4.5c0-.3-.2-.5-.5-.5H15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-exit" viewBox="0 0 24 24"><path d="M4 4l7 7M11 4l-7 7M9 4h11m-6 7V4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9v6h3.5L12 19V5L7.5 9H4zM15.5 9a4 4 0 010 6M18 6.5a8 8 0 010 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-muted" viewBox="0 0 24 24"><path d="M4 9v6h3.5L12 19V5L7.5 9H4zM16 10l5 5M21 10l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-3-3 3 3 0 013 3zm12-4a3 3 0 11-3-3 3 3 0 013 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.1 2.1 0 000-3l-1-1a2.1 2.1 0 00-3 0L4 16v4zM13 6l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5h6v2m-8 0l1 13h8l1-13M10 11v5M14 11v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-import" viewBox="0 0 24 24"><path d="M12 3v11m0 0l-4-4m4 4l4-4M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 14V3m0 0L8 7m4-4l4 4M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-drag" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.6" fill="currentColor"/><circle cx="15" cy="6" r="1.6" fill="currentColor"/><circle cx="9" cy="12" r="1.6" fill="currentColor"/><circle cx="15" cy="12" r="1.6" fill="currentColor"/><circle cx="9" cy="18" r="1.6" fill="currentColor"/><circle cx="15" cy="18" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 10l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V6a2 2 0 012-2h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-kicker" viewBox="0 0 24 24"><path d="M4 16s2-7 8-7 8 7 8 7M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-rand" viewBox="0 0 24 24"><path d="M16 4h4v4M20 4l-6 6M8 20H4v-4M4 20l6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h11m4 0h1M4 17h4m5 0h7M15 4v6M7 14v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 01-10 0V4zM7 5H4v1a3 3 0 003 3m10-4h3v1a3 3 0 01-3 3M12 14v4m-3 0h6v2H9v-2m3-5a5 5 0 01-5-5V3h10v1a5 5 0 01-5 5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4m8-4v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4m0 1h13l-3 4 3 4H5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+    <div class="brand">
+      <div class="brand-mark"><span class="brand-dot"></span><span class="brand-dot"></span>
+        <svg class="brand-glyph"><use href="#i-trophy"/></svg>
+      </div>
+      <div class="brand-text"><strong>LUCKY&nbsp;DRAW</strong><span>EVENT&nbsp;STUDIO</span></div>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar (Ctrl+B)"><svg><use href="#i-chev"/></svg></button>
+    </div>
+
+    <nav class="nav" aria-label="Main">
+      <button class="nav-item is-active" data-view="home" data-tooltip="Home &amp; Setup"><svg><use href="#i-home"/></svg><span class="nav-text">Home &amp; Setup</span></button>
+      <button class="nav-item" data-view="draw" data-tooltip="Draw stage"><svg><use href="#i-kicker"/></svg><span class="nav-text">Draw stage</span></button>
+      <button class="nav-item" data-view="participants" data-tooltip="Participants"><svg><use href="#i-users"/></svg><span class="nav-text">Participants</span><em class="nav-badge" id="navPartBadge">0</em></button>
+      <button class="nav-item" data-view="prizes" data-tooltip="Prizes"><svg><use href="#i-gift"/></svg><span class="nav-text">Prizes</span><em class="nav-badge" id="navPrizeBadge">0</em></button>
+      <button class="nav-item" data-view="history" data-tooltip="Winner history"><svg><use href="#i-history"/></svg><span class="nav-text">Winner history</span><em class="nav-badge" id="navHistoryBadge">0</em></button>
+    </nav>
+
+    <div class="dock">
+      <div class="dock-title">AUDIO</div>
+      <div class="dock-grid">
+        <button class="dock-btn" id="dockSound" aria-label="Toggle sound effects" title="Toggle sound effects" aria-pressed="true"><svg><use href="#i-sound"/></svg><span>Sound</span></button>
+        <button class="dock-btn" id="dockMusic" aria-label="Toggle background music" title="Toggle background music" aria-pressed="false"><svg><use href="#i-music"/></svg><span>Music</span></button>
+        <button class="dock-btn" id="dockFullscreen" aria-label="Presentation mode" title="Presentation mode (F)"><svg><use href="#i-fullscreen"/></svg><span>Stage</span></button>
+      </div>
+    </div>
+
+    <div class="event-chip" id="eventChip">
+      <div class="ec-logo" id="ecLogo">🎯</div>
+      <div class="ec-meta"><strong id="ecName">No event yet</strong><span id="ecSub"></span></div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- ===== HOME / SETUP ===== -->
+    <section class="view" id="view-home" hidden>
+      <header class="view-head">
+        <div><h1>Event setup</h1><p>Configure your event, then launch the draw stage.</p></div>
+        <div class="head-actions">
+          <button class="btn btn-ghost" id="btnLoadDemo"><svg><use href="#i-rand"/></svg>Load demo event</button>
+          <button class="btn btn-danger-ghost" id="btnResetAll"><svg><use href="#i-trash"/></svg>Clear everything</button>
+        </div>
+      </header>
+
+      <section class="home-hero" id="homeHero">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <span class="hero-kicker" id="heroKicker">EVENT STATUS</span>
+          <h2 class="hero-title" id="heroEvent">No event yet</h2>
+          <p class="hero-sub" id="heroSub">Set up your event to begin</p>
+          <p class="hero-meta" id="heroMeta">0 participants · 0 eligible · 0 prizes · 0 winners</p>
+        </div>
+        <button class="btn btn-primary btn-hero" id="heroStartDraw"><svg><use href="#i-play"/></svg><span>RUN THE DRAW</span><kbd>space</kbd></button>
+      </section>
+
+      <div class="stat-strip" aria-label="Event summary">
+        <div class="stat"><span>PARTICIPANTS</span><strong id="mHTotal">0</strong></div>
+        <div class="stat stat-ok"><span>ELIGIBLE</span><strong id="mHEligible">0</strong></div>
+        <div class="stat stat-accent"><span>PRIZES</span><strong id="mHPrizes">0</strong></div>
+        <div class="stat stat-warn"><span>COMPLETED</span><strong id="mHCompleted">0</strong></div>
+        <div class="stat stat-win"><span>WINNERS</span><strong id="mHWinners">0</strong></div>
+      </div>
+
+      <div class="home-grid">
+        <div class="panel">
+          <div class="panel-head"><h2>Event identity</h2></div>
+          <div class="panel-body">
+            <div style="display: flex; gap: 7px; flex-direction: column;">
+              <label class="field"><span>Event name</span><input id="evName" type="text" placeholder="YEAR END PARTY 2026" maxlength="60"/></label>
+              <label class="field"><span>Event subtitle</span><input id="evSub" type="text" placeholder="Together We Shine" maxlength="60"/></label>
+            </div>
+            <div class="field-row">
+              <label class="field field-file field-logo"><span>Event logo</span>
+                <input class="file-input" id="evLogo" type="file" accept="image/*"/>
+                <div class="file-zone"><span class="fz-preview" id="evLogoPrev">🎯</span><span class="fz-text">Click to upload<br/><small>PNG, JPG, SVG</small></span><em id="evLogoClear" class="fz-clear">✕</em></div>
+              </label>
+              <div class="field"><span>Background theme</span>
+                <div class="theme-grid" id="themeGrid" role="radiogroup" aria-label="Background theme">
+                  <button class="theme-swatch" data-theme="navy" title="Navy &amp; gold" aria-pressed="true"></button>
+                  <button class="theme-swatch" data-theme="violet" title="Royal violet" aria-pressed="false"></button>
+                  <button class="theme-swatch" data-theme="emerald" title="Emerald" aria-pressed="false"></button>
+                  <button class="theme-swatch" data-theme="crimson" title="Crimson night" aria-pressed="false"></button>
+                  <button class="theme-swatch" data-theme="midnight" title="Midnight blue" aria-pressed="false"></button>
+                  <label class="theme-swatch theme-upload" title="Upload background image">
+                    <input class="file-input" id="evBgImage" type="file" accept="image/*"/><svg><use href="#i-export"/></svg>
+                  </label>
+                </div>
+                <button class="btn-link" id="evBgClear" hidden>Remove background image</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Participants</h2><button class="btn btn-small btn-ghost" id="btnDemoPart"><svg><use href="#i-rand"/></svg>Generate 100</button></div>
+          <div class="panel-body">
+            <div class="metric-row">
+              <div class="metric"><strong id="mTotal">0</strong><span>Total</span></div>
+              <div class="metric metric-ok"><strong id="mEligible">0</strong><span>Eligible</span></div>
+              <div class="metric metric-win"><strong id="mWon">0</strong><span>Winners</span></div>
+            </div>
+            <div class="field-row">
+              <button class="btn btn-outline btn-grow" id="btnImportCsvHome"><svg><use href="#i-import"/></svg>Import CSV / TSV</button>
+              <button class="btn btn-outline btn-grow" id="btnExportCsvHome"><svg><use href="#i-export"/></svg>Export CSV</button>
+            </div>
+            <div class="display-fields-summary">
+              <div><strong>Fields shown on winner screen</strong><small id="homeDrawFieldsHint">Name</small></div>
+              <button class="btn btn-small btn-outline" id="btnDrawFieldsHome">Review fields</button>
+            </div>
+            <p class="hint">CSV columns can include any extra details. Open <a href="#" class="link" data-goto="participants">participants</a> to review imported data.</p>
+          </div>
+        </div>
+
+        <div class="panel panel-wide">
+          <div class="panel-head"><h2>Prize for this draw</h2><button class="btn btn-small btn-ghost" data-goto="prizes">Manage prizes</button></div>
+          <div class="panel-body">
+            <div class="launch-row">
+              <label class="field field-grow"><span>Select prize</span><select id="homePrizeSelect"></select></label>
+              <label class="field win-select"><span>Winners for this draw</span>
+                <div class="stepper"><button type="button" id="homeCountMinus" aria-label="Fewer winners">−</button><input id="homeCount" type="number" min="1" max="99" value="1"/><button type="button" id="homeCountPlus" aria-label="More winners">+</button></div>
+              </label>
+            </div>
+            <div class="prize-preview" id="homePrizePreview">
+              <div class="pp-icon">🎁</div><div class="pp-meta"><strong class="pp-kicker">SELECT A PRIZE</strong><span class="pp-name">No prize selected</span></div>
+            </div>
+            <button class="btn btn-primary btn-cta-lg" id="btnStartDraw"><svg><use href="#i-play"/></svg>START LUCKY DRAW</button>
+            <p class="hint center" id="homeRemainingHint">—</p>
+          </div>
+        </div>
+
+        <div class="panel panel-danger">
+          <div class="panel-head"><h2>Run the game</h2><button class="btn btn-small btn-ghost" id="btnDrawSettings"><svg><use href="#i-settings"/></svg>Settings</button></div>
+          <div class="panel-body">
+            <label class="toggle"><input type="checkbox" id="toggleRemoveWinners" checked/><span class="tui"></span><span><strong>Remove winners from future draws</strong><small>Won participants won't be picked again.</small></span></label>
+            <button class="btn btn-danger" id="btnResetRound"><svg><use href="#i-history"/></svg>Reset game&nbsp;<small>(re-elect everyone)</small></button>
+            <p class="hint">Reset marks every participant eligible again and clears draw history.</p>
+            <div class="panel-divider"></div>
+            <div class="mode-row">
+              <span class="mode-tag" id="homeModeTag">🎯 Random Number</span>
+              <span class="mode-detail" id="homeModeDetail">—</span>
+            </div>
+            <button class="btn btn-outline" id="btnRangeDemo"><svg><use href="#i-kicker"/></svg>Try Number Range demo&nbsp;<small>(1 – 1000)</small></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PARTICIPANTS ===== -->
+    <section class="view" id="view-participants" hidden>
+      <header class="view-head">
+        <div><h1>Participants</h1><p id="partSummary">No participants yet.</p></div>
+        <div class="head-actions">
+          <button class="btn btn-ghost" id="btnImportCsv"><svg><use href="#i-import"/></svg>Import CSV</button>
+          <button class="btn btn-ghost" id="btnExportCsv"><svg><use href="#i-export"/></svg>Export CSV</button>
+          <button class="btn btn-primary" id="btnAddPart"><svg><use href="#i-plus"/></svg>Add participant</button>
+        </div>
+      </header>
+
+      <div class="toolbar card">
+        <label class="search"><svg><use href="#i-search"/></svg><input id="partSearch" type="search" placeholder="Search any participant data…"/></label>
+        <label class="sel">Status<select id="partFilter"><option value="all">All statuses</option><option value="eligible">Eligible</option><option value="winner">Winner</option><option value="excluded">Excluded</option></select></label>
+        <label class="sel">Sort<select id="partSort"><option value="id">By # &nbsp;asc</option><option value="id-desc">By # &nbsp;desc</option><option value="name">By name</option><option value="dept">By department</option><option value="phone">By phone</option></select></label>
+        <label class="toggle toggle-inline"><input type="checkbox" id="toggleRemoveWinners2" checked/><span class="tui"></span><span>Remove winners</span></label>
+      </div>
+
+      <div class="table-wrap card">
+        <table class="table" id="partTable">
+          <thead><tr><th scope="col">#</th><th scope="col">ID</th><th scope="col">Name</th><th scope="col">Phone / Code</th><th scope="col">Department</th><th scope="col">Imported data</th><th scope="col">Status</th><th class="th-actions" scope="col">Actions</th></tr></thead>
+          <tbody id="partTbody"></tbody>
+        </table>
+        <div class="table-empty" id="partEmpty" hidden>
+          <div class="empty-art">👥</div><h3 id="partEmptyTitle">No participants yet</h3><p id="partEmptyMsg">Import a CSV or add participants manually to get started.</p>
+          <div class="empty-actions"><button class="btn btn-primary" id="btnAddPart2"><svg><use href="#i-plus"/></svg>Add participant</button>
+          <button class="btn btn-ghost" id="btnImportCsv2"><svg><use href="#i-import"/></svg>Import CSV</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRIZES ===== -->
+    <section class="view" id="view-prizes" hidden>
+      <header class="view-head">
+        <div><h1>Prizes</h1><p>Set the award ladder. The first prize is drawn first.</p></div>
+        <div class="head-actions stack-sm">
+          <button class="btn btn-primary" id="btnSelectPrize"><svg><use href="#i-rand"/></svg><span id="btnSelectPrizeLbl">Select prize for draw</span></button>
+          <button class="btn btn-outline" id="btnAddPrize"><svg><use href="#i-plus"/></svg>Add prize</button>
+        </div>
+      </header>
+
+      <div class="toolbar card">
+        <p class="toolbar-help">Drag rows or use arrows to set the <strong>draw order</strong> (top = drawn first). One draw = one prize.</p>
+      </div>
+
+      <div class="prize-list" id="prizeList"></div>
+      <div class="table-empty card" id="prizeEmpty" hidden>
+        <div class="empty-art">🎁</div><h3>No prizes configured</h3><p>Create a prize — or let the demo event do it for you.</p>
+        <button class="btn btn-primary" id="btnAddPrize2"><svg><use href="#i-plus"/></svg>Add prize</button>
+      </div>
+    </section>
+
+    <!-- ===== HISTORY ===== -->
+    <section class="view" id="view-history" hidden>
+      <header class="view-head">
+        <div><h1>Winner history</h1><p id="histSummary">Every draw is recorded here.</p></div>
+        <div class="head-actions">
+          <button class="btn btn-ghost" id="btnExportHist"><svg><use href="#i-export"/></svg>Export winners</button>
+          <button class="btn btn-danger-ghost" id="btnClearHist"><svg><use href="#i-trash"/></svg>Clear history</button>
+        </div>
+      </header>
+
+      <div class="toolbar card">
+        <label class="search"><svg><use href="#i-search"/></svg><input id="histSearch" type="search" placeholder="Search winners…"/></label>
+        <label class="sel">Prize<select id="histFilter"><option value="all">All prizes</option></select></label>
+      </div>
+
+      <div id="histList" class="hist-list"></div>
+      <div class="table-empty card" id="histEmpty" hidden>
+        <div class="empty-art">🏆</div><h3>No draws yet</h3><p>Completed draws will appear here automatically.</p>
+      </div>
+    </section>
+
+    <!-- ===== DRAW STAGE ===== -->
+    <section class="view view-stage" id="view-draw" hidden>
+      <div class="stage" id="stage" data-status="idle" data-rollmode="number">
+
+        <div class="stage-bg" aria-hidden="true">
+          <div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div>
+          <div class="bg-image" id="stageBgImage"></div>
+          <div class="grid-lines"></div>
+          <div class="sweep"></div>
+          <div class="vignette"></div>
+        </div>
+
+        <header class="stage-head">
+          <div class="stage-brand">
+            <img class="stage-logo" id="stageLogo" alt="" hidden/>
+            <span class="stage-logo-fallback" id="stageLogoFallback" hidden>🎯</span>
+            <div class="stage-title">
+              <span class="stage-event" id="stageEvent">LOGO — SETUP</span>
+              <span class="stage-event" id="stageEventSub">—</span>
+            </div>
+          </div>
+          <div class="stage-round">
+            <span class="round-label">ROUND</span>
+            <strong id="stageRound">01</strong>
+          </div>
+        </header>
+
+        <div class="stage-body">
+
+          <div class="prize-block" id="prizeBlock">
+            <div class="prize-img" id="prizeImg">🎁</div>
+            <div class="prize-head">
+              <span class="prize-kicker" id="prizeKicker">SELECT A PRIZE</span>
+              <span class="prize-name" id="prizeName">Waiting for setup…</span>
+            </div>
+            <div class="prize-meta" id="prizeMeta">—</div>
+          </div>
+
+          <div class="roll-area">
+            <div class="stage-callout" id="stageCallout" hidden>
+              <div class="sc-icon" id="scIcon">🎯</div>
+              <h3 id="scTitle">Title</h3>
+              <p id="scDesc">Description</p>
+              <button class="btn btn-primary" id="scCta">Action</button>
+            </div>
+            <div class="roll-viewport" id="rollViewport">
+              <div class="roll-main" id="rollMain">#&mdash;&mdash;</div>
+              <div class="roll-sub" id="rollSub">LUCKY DRAW</div>
+              <div class="roll-tag" id="rollTag" hidden></div>
+            </div>
+            <div class="roll-grid" id="rollGrid" hidden></div>
+          </div>
+
+          <div class="stage-foot">
+            <div class="status-line">
+              <span class="status-dot"></span>
+              <span id="statusText">Set up the draw</span>
+              <span class="state-chip" id="stateChip" hidden>IDLE</span>
+            </div>
+
+            <div class="stage-actions">
+              <button class="stage-ghost" id="stageExit" aria-label="Back to studio" title="Back to studio"><svg><use href="#i-exit"/></svg></button>
+              <button class="stage-ghost" id="stageFull" aria-label="Presentation mode" title="Presentation mode (F)"><svg><use href="#i-fullscreen"/></svg></button>
+              <button class="stage-ghost" id="stageSound" aria-label="Toggle sound" title="Toggle sound" aria-pressed="true"><svg><use href="#i-sound"/></svg></button>
+              <button class="btn-cta" id="stageCta" disabled><span class="cta-label">START DRAW</span></button>
+            </div>
+            <div class="stage-hint">SPACE start / stop &nbsp;·&nbsp; F presentation &nbsp;·&nbsp; ESC exit</div>
+          </div>
+        </div>
+
+        <!-- countdown overlay -->
+        <div class="overlay overlay-count" id="countOverlay" hidden>
+          <div class="count-visual">
+            <div class="count-num" id="countNum">3</div>
+            <div class="count-word" id="countWord">GET READY</div>
+          </div>
+        </div>
+
+        <!-- single winner reveal -->
+        <div class="overlay overlay-reveal" id="revealOverlay" hidden>
+          <div class="reveal-card" id="revealCard">
+            <div class="reveal-confetti" aria-hidden="true"></div>
+            <div class="reveal-badge"><svg class="rb-ico" aria-hidden="true"><use href="#i-trophy"/></svg>WINNER</div>
+            <div class="reveal-code" id="revealCode">#00000</div>
+            <div class="reveal-name" id="revealName">NAME</div>
+            <div class="reveal-fields" id="revealFields" aria-live="polite"></div>
+            <div class="reveal-prize-line" id="revealPrizeLine">
+              <span class="reveal-prize-img" id="revealPrizeImg">🎁</span>
+              <span class="reveal-prize" id="revealPrizeName">Prize</span>
+            </div>
+            <div class="reveal-stats"><span id="revealRound">Round 01 · 1/3</span></div>
+            <div class="reveal-actions">
+              <button class="btn btn-glass" id="revealNext"><svg><use href="#i-play"/></svg><span id="revealNextLabel">NEXT DRAW</span></button>
+              <button class="btn btn-glass ghost" id="revealGrid"><svg><use href="#i-users"/></svg>VIEW ALL WINNERS</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- multi winner grid -->
+        <div class="overlay overlay-grid" id="gridOverlay" hidden>
+          <div class="grid-head">
+            <span class="grid-kicker">🎉 ALL WINNERS 🎉</span>
+            <span class="grid-prize" id="gridPrizeName">Prize</span>
+          </div>
+          <div class="grid-cards" id="gridCards"></div>
+          <div class="reveal-actions">
+            <button class="btn btn-primary" id="gridNext"><svg><use href="#i-play"/></svg>CONTINUE</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- operator bar -->
+      <div class="operator-bar card" id="operatorBar">
+        <button type="button" class="rail-toggle" id="railToggle" aria-expanded="false" aria-controls="operatorBar" aria-label="Expand controls" title="Expand controls (C)">
+          <svg class="rail-chev" aria-hidden="true"><use href="#i-chev"/></svg>
+        </button>
+        <div class="op-group op-prize">
+          <span class="op-label">PRIZE</span>
+          <select id="opPrize" aria-label="Prize"></select>
+        </div>
+        <div class="op-group op-count">
+          <span class="op-label">WINNERS</span>
+          <div class="stepper"><button id="opMinus" aria-label="Fewer winners">−</button><input id="opCount" type="number" min="1" max="99" value="1"/><button id="opPlus" aria-label="More winners">+</button></div>
+        </div>
+        <div class="op-group op-reveal">
+          <span class="op-label">REVEAL</span>
+          <select id="opReveal" aria-label="Reveal mode"><option value="all">All at once</option><option value="sequential">One by one</option></select>
+        </div>
+        <div class="op-stats">
+          <div class="op-stat"><strong id="opEligible">0</strong><span id="opEligibleLbl">eligible</span></div>
+          <div class="op-stat"><strong id="opWinners">0</strong><span id="opWinnersLbl">winners</span></div>
+          <div class="op-stat"><strong id="opRound">0</strong><span id="opRoundLbl">draw</span></div>
+        </div>
+        <div class="op-toggles">
+          <button class="op-toggle" id="opSound" aria-label="Toggle sound" title="Sound" aria-pressed="true"><svg><use href="#i-sound"/></svg></button>
+          <button class="op-toggle" id="opMusic" aria-label="Toggle music" title="Music" aria-pressed="false"><svg><use href="#i-music"/></svg></button>
+          <button class="op-toggle" id="opFullscreen" aria-label="Presentation mode" title="Presentation mode (F)"><svg><use href="#i-fullscreen"/></svg></button>
+        </div>
+        <div class="op-hints" aria-hidden="false">
+          <span class="margin-r"><kbd class="kbd">space</kbd> start / stop</span>
+          <span class="margin-r"><kbd class="kbd">F</kbd> presentation</span>
+          <span class="margin-r"><kbd class="kbd">esc</kbd> exit</span>
+          <span><kbd class="kbd">↑↓</kbd> winners</span>
+        </div>
+      </div>
+
+      <!-- number range controls (contextual — shown only in Number Range mode) -->
+      <div class="range-bar card" id="rangeBar" hidden>
+        <div class="op-group rg-preset">
+          <span class="op-label">RANGE</span>
+          <select id="rgPreset" aria-label="Range preset">
+            <option value="1,10">1 – 10</option>
+            <option value="1,100">1 – 100</option>
+            <option value="1,500">1 – 500</option>
+            <option value="1,1000" selected>1 – 1000</option>
+            <option value="1,5000">1 – 5000</option>
+            <option value="1,10000">1 – 10000</option>
+            <option value="custom">Custom…</option>
+          </select>
+        </div>
+        <div class="op-group rg-fld">
+          <span class="op-label">FROM</span>
+          <input id="rgFrom" type="number" min="0" value="1"/>
+        </div>
+        <div class="op-group rg-fld">
+          <span class="op-label">TO</span>
+          <input id="rgTo" type="number" min="1" value="1000"/>
+        </div>
+        <div class="op-group rg-fld rg-fmt">
+          <span class="op-label">FORMAT</span>
+          <select id="rgFormat" aria-label="Number format">
+            <option value="0">Normal · 25</option>
+            <option value="3">3 digits · 025</option>
+            <option value="4">4 digits · 0025</option>
+            <option value="5">5 digits · 00025</option>
+            <option value="6">6 digits · 000025</option>
+          </select>
+        </div>
+        <label class="rg-toggle"><input type="checkbox" id="rgUnique" checked/><span class="tui"></span><span>Unique numbers</span></label>
+        <div class="rg-rest">
+          <span class="rg-used" title="Numbers drawn in this draw"><strong id="rgUsed">0</strong><span>drawn</span></span>
+          <span class="rg-meta" id="rgMeta">1000 AVAILABLE</span>
+          <button class="btn btn-small btn-ghost" id="rgReset"><svg><use href="#i-history"/></svg>Reset used <kbd>R</kbd></button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite" aria-atomic="false"></div>
+
+<script src="js/state.js"></script>
+<script src="js/csv.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/draw.js"></script>
+<script src="js/views.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
